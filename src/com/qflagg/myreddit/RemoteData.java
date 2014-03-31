@@ -14,19 +14,24 @@ import android.util.Log;
 public class RemoteData {
 
 	// Returns a connection to the specified URL
-	public static HttpURLConnection getConnection(String url) {
-		System.out.println("URL: " + url);
-		HttpURLConnection connection = null;
-
+	static HttpURLConnection getConnection(String url) {
+		URL u = null;
 		try {
-			connection = (HttpURLConnection) new URL(url).openConnection();
-			connection.setConnectTimeout(30000); // timeout at 30 seconds
-			connection.setRequestProperty("User-Agent", "myreddit V1.0");
+			u = new URL(url);
 		} catch (MalformedURLException e) {
-			Log.e("getConnection()", "Invalid URL: " + e.toString());
-		} catch (IOException e) {
-			Log.e("getConnection()", "Could not connect: " + e.toString());
+			Log.d("Invalid URL", url);
+			return null;
 		}
+		HttpURLConnection connection = null;
+		try {
+			connection = (HttpURLConnection) u.openConnection();
+		} catch (IOException e) {
+			Log.d("Unable to connect", url);
+			return null;
+		}
+		// Timeout after 30 seconds
+		connection.setReadTimeout(30000);
+		// Allow POST data
 		connection.setDoOutput(true);
 		return connection;
 	}
@@ -48,6 +53,18 @@ public class RemoteData {
 		} catch (IOException e) {
 			Log.d("READ FAILED", e.toString());
 			return null;
+		}
+	}
+	
+	static boolean writeToConnection(HttpURLConnection con, String data) {
+		try {
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(con.getOutputStream()));
+			pw.write(data);
+			pw.close();
+			return true;
+		} catch (IOException e) {
+			Log.d("Unable to write", e.toString());
+			return false;
 		}
 	}
 }
