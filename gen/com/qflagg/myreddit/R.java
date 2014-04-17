@@ -35,24 +35,25 @@ public final class R {
         public static final int selector_card_background=0x7f02000b;
     }
     public static final class id {
-        public static final int action_check_updates=0x7f080011;
-        public static final int action_help=0x7f080010;
-        public static final int action_location_found=0x7f08000e;
-        public static final int action_refresh=0x7f08000f;
-        public static final int action_search=0x7f08000d;
-        public static final int button1=0x7f08000c;
-        public static final int downvote=0x7f080006;
-        public static final int editText1=0x7f08000a;
-        public static final int editText2=0x7f08000b;
+        public static final int action_check_updates=0x7f080012;
+        public static final int action_help=0x7f080011;
+        public static final int action_location_found=0x7f08000f;
+        public static final int action_refresh=0x7f080010;
+        public static final int action_search=0x7f08000e;
+        public static final int button1=0x7f08000d;
+        public static final int downvote=0x7f080007;
+        public static final int editText1=0x7f08000b;
+        public static final int editText2=0x7f08000c;
         public static final int fragments_holder=0x7f080000;
         public static final int imageView1=0x7f080003;
-        public static final int karma=0x7f080004;
-        public static final int list_view=0x7f080008;
+        public static final int karma=0x7f080005;
+        public static final int list_view=0x7f080009;
         public static final int subreddit=0x7f080002;
-        public static final int textView3=0x7f080009;
+        public static final int subtext=0x7f080004;
+        public static final int textView3=0x7f08000a;
         public static final int title=0x7f080001;
-        public static final int txtTitle=0x7f080007;
-        public static final int upvote=0x7f080005;
+        public static final int txtTitle=0x7f080008;
+        public static final int upvote=0x7f080006;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

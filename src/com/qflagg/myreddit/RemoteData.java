@@ -12,13 +12,21 @@ import android.util.Log;
 
 //serves as a utility class that handles network connections
 public class RemoteData {
+	
+	private String cookie;
+	
+	public RemoteData() {
+		cookie = "";
+	}
 
 	// Returns a connection to the specified URL
-	 public static HttpURLConnection getConnection(String url){
+	 public  HttpURLConnection getConnection(String url){
 	        System.out.println("URL: "+url);
 	        HttpURLConnection hcon = null;
 	        try {            
 	            hcon=(HttpURLConnection)new URL(url).openConnection();
+	            if(cookie.length() > 0)
+		        	hcon.setRequestProperty("Cookie", cookie);
 	            hcon.setReadTimeout(30000); // Timeout at 30 seconds
 	            hcon.setRequestProperty("User-Agent", "Alien V1.0");
 	        } catch (MalformedURLException e) {
@@ -58,8 +66,23 @@ public class RemoteData {
 	     * @param url
 	     * @return
 	     */
-	    public static String readContents(String url){        
-	        HttpURLConnection hcon=getConnection(url);
+	    public String readContents(String url){        
+	        
+	    	HttpURLConnection hcon = null;
+	        try {            
+	            hcon=(HttpURLConnection)new URL(url).openConnection();
+	            if(cookie.length() > 0)
+		        	hcon.setRequestProperty("Cookie", cookie);
+	            hcon.setReadTimeout(30000); // Timeout at 30 seconds
+	            hcon.setRequestProperty("User-Agent", "Alien V1.0");
+	        } catch (MalformedURLException e) {
+	            Log.e("getConnection()",
+	                  "Invalid URL: "+e.toString());
+	        } catch (IOException e) {
+	            Log.e("getConnection()",
+	                  "Could not connect: "+e.toString());
+	        }
+	    	
 	        if(hcon==null) return null;
 	        try{
 	            StringBuffer sb=new StringBuffer(8192);
@@ -90,5 +113,9 @@ public class RemoteData {
 			Log.d("Unable to write", e.toString());
 			return false;
 		}
+	}
+	
+	public void setCookie(String cookie) {
+		this.cookie = cookie;
 	}
 }

@@ -1,5 +1,6 @@
 package com.qflagg.myreddit;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class PostInflater implements IAdapterViewInflater<Post> {
 		private TextView title;
 		private TextView subreddit;
 		private TextView karma;
+		private TextView subtext;
 		private ImageView m_image;
 
 
@@ -45,6 +47,7 @@ public class PostInflater implements IAdapterViewInflater<Post> {
 			title = (TextView) m_rootView.findViewById(R.id.title);
 			subreddit = (TextView) m_rootView.findViewById(R.id.subreddit);
 			karma = (TextView) m_rootView.findViewById(R.id.karma);
+			subtext = (TextView) m_rootView.findViewById(R.id.subtext);
 			m_image = (ImageView) m_rootView.findViewById(R.id.imageView1);
 			rootView.setTag(this);
 		}
@@ -53,7 +56,17 @@ public class PostInflater implements IAdapterViewInflater<Post> {
 			title.setText(item.getTitle());
 			subreddit.setText("to r/" + item.getSubreddit() + " by " + item.getAuthor());
 			karma.setText(item.getKarma() + " (" + item.getUp() + "|" + item.getDown() + ")");
-			UrlImageViewHelper.setUrlDrawable(m_image, item.getUrl(), null, 60000);
+			
+			if(item.getUrl().contains("reddit.com")) {
+				m_image.setVisibility(android.view.View.GONE);
+				subtext.setVisibility(android.view.View.VISIBLE);
+				subtext.setText(item.getSubtext());
+			} else {
+				UrlImageViewHelper.setUrlDrawable(m_image, item.getUrl(), null, 60000);
+			}
+			
+			Log.d("testestestest", item.getUrl());
+			Log.d("testestestest", item.subtext);
 		}
 
 	}

@@ -25,10 +25,15 @@ public class PostsHolder {
     String subreddit;
     String url;
     String after;
+    String redditCookie;
+    RemoteData remoteData;
      
-    PostsHolder(String sr){
+    PostsHolder(String sr, String rc){
         subreddit=sr;    
         after="";
+        
+        remoteData = new RemoteData();
+        remoteData.setCookie(rc);
         generateURL();
     }
      
@@ -37,8 +42,12 @@ public class PostsHolder {
      * subreddit name and the 'after' property.
      */
     private void generateURL(){
-        url=URL_TEMPLATE.replace("SUBREDDIT_NAME", subreddit);
-        url=url.replace("AFTER", after);
+    	if(subreddit.length() > 0){
+    		url=URL_TEMPLATE.replace("SUBREDDIT_NAME", subreddit);
+    	} else {
+    		url=URL_TEMPLATE.replace("r/SUBREDDIT_NAME", subreddit);
+    	}
+    	url=url.replace("AFTER", after);
     }
      
     /**
@@ -48,7 +57,7 @@ public class PostsHolder {
      * @return
      */
     List<Post> fetchPosts(){
-        String raw=RemoteData.readContents(url);
+        String raw=remoteData.readContents(url);
         List<Post> list=new ArrayList<Post>();
         try{
             JSONObject data=new JSONObject(raw)
@@ -73,6 +82,7 @@ public class PostsHolder {
                 p.id=cur.optString("id");
                 p.up=cur.optInt("ups");
                 p.down=cur.optInt("downs");
+                p.subtext=p.stripHtml(cur.optString("selftext_html"));
                 if(p.title!=null)
                     list.add(p);
                 

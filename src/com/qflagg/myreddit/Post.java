@@ -13,11 +13,7 @@ public class Post {
 	String id;
 	int up;
 	int down;
-	
-	//returns formatted String containing details of the current post/thread
-	String getDetails() {
-		return author;// + "posted this and got " + numComments + " replies";
-	}
+	String subtext;
 	
 	//returns title of the post/thread
 	String getTitle() {
@@ -69,5 +65,19 @@ public class Post {
 
 	public String getId() {
 		return id;
+	}
+	
+	public String getSubtext() {
+		return subtext;
+	}
+	
+	public String stripHtml(String string){
+		string = string.replaceAll("\\<.*?\\>", "");
+		string = string.replaceAll("&lt;.+?&gt;", "");
+		string = string.replaceAll("&\\w+?;", "");
+		string = string.replaceAll("#39;", "'");
+		string = string.replaceAll("quot;", "\"");
+		
+		return string;
 	}
 }

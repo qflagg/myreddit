@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -24,15 +25,19 @@ public class MainActivity extends FragmentActivity implements
 													// data
 	private TitleNavigationAdapter adapter; // action bar adapter
 
-	PostsHolder postsHolder = new PostsHolder("AdviceAnimals");
 	List<Post> posts = new ArrayList<Post>();
 	ListView list;
+	String redditCookie;
+	PostsHolder postsHolder;
 
 	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listview);
+		redditCookie = getIntent().getStringExtra("redditCookie");
+		postsHolder = new PostsHolder("", redditCookie);
+		
 		
 		list = (ListView) findViewById(R.id.list_view);
 		list.addHeaderView(new View(this));
@@ -43,6 +48,7 @@ public class MainActivity extends FragmentActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST); // enable dropdown navigation
 
 		navSpinner = new ArrayList<SpinnerNavItem>();
+		navSpinner.add(new SpinnerNavItem("Front Page"));
 		navSpinner.add(new SpinnerNavItem("r/AbandonedPorn"));
 		navSpinner.add(new SpinnerNavItem("r/AdviceAnimals"));
 		navSpinner.add(new SpinnerNavItem("r/AskReddit"));
@@ -72,16 +78,16 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		PopulateCardsTask task = new PopulateCardsTask();
 		// Action to be taken after selecting a spinner item
-//		switch (itemPosition) {
-//		case 0:
-//			postsHolder.setSubreddit("AbandonedPorn");
-//			task.execute();
-//			break;
-//		case 1:
-//			postsHolder.setSubreddit("AdviceAnimals");
-//			task.execute();
-//			break;
-//		}
+		switch (itemPosition) {
+		case 1:
+			postsHolder.setSubreddit("AbandonedPorn");
+			task.execute();
+			break;
+		case 2:
+			postsHolder.setSubreddit("AdviceAnimals");
+			task.execute();
+			break;
+		}
 		return false;
 	}
 	

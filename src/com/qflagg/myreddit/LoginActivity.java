@@ -58,6 +58,13 @@ public class LoginActivity extends FragmentActivity {
 	}
 
 	public void loginUser(View view) {
+		Context context = getApplicationContext();
+		CharSequence text = "Logging in...";
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+		
 		EditText username = (EditText) findViewById(R.id.editText1);
 		EditText password = (EditText) findViewById(R.id.editText2);
 
@@ -67,13 +74,13 @@ public class LoginActivity extends FragmentActivity {
 		boolean validLogin = login(usernameText, passwordText);
 		if (validLogin) {
 			Intent intent = new Intent(this, MainActivity.class);
+			intent.putExtra("redditCookie", redditCookie);
 			startActivity(intent);
 		} else {
-			Context context = getApplicationContext();
-			CharSequence text = "Invalid Username or Password";
-			int duration = Toast.LENGTH_SHORT;
+			context = getApplicationContext();
+			text = "Invalid Username or Password";
 
-			Toast toast = Toast.makeText(context, text, duration);
+			toast = Toast.makeText(context, text, duration);
 			toast.show();
 		}
 	}
