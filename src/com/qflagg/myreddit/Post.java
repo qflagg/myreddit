@@ -11,10 +11,12 @@ public class Post {
 	String url;
 	String domain;
 	String id;
+	int up;
+	int down;
 	
 	//returns formatted String containing details of the current post/thread
 	String getDetails() {
-		return author + "posted this and got " + numComments + " replies";
+		return author;// + "posted this and got " + numComments + " replies";
 	}
 	
 	//returns title of the post/thread
@@ -22,8 +24,50 @@ public class Post {
 		return title;
 	}
 	
+	public int getUp(){
+		return up;
+	}
+	
+	public int getDown() {
+		return down;
+	}
+	
 	//returns karma received from post/thread
-	String getKarma() {
+	public String getKarma() {
 		return Integer.toString(karma);
+	}
+
+	public String getSubreddit() {
+		return subreddit;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+
+	public int getNumComments() {
+		return numComments;
+	}
+
+	public String getPermalink() {
+		return permalink;
+	}
+
+
+	public String getUrl() {
+		return url;
+	}
+	
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

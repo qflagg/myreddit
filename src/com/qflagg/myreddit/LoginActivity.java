@@ -27,7 +27,7 @@ public class LoginActivity extends FragmentActivity {
 	}
 
 	boolean login(String username, String password) {
-		HttpURLConnection connection = RemoteData.getConnection(REDDIT_LOGIN_URL);
+		HttpURLConnection connection = RemoteData.getLoginConnection(REDDIT_LOGIN_URL);
 
 		if (connection == null)
 			return false;
@@ -63,8 +63,7 @@ public class LoginActivity extends FragmentActivity {
 
 		String usernameText = username.getText().toString();
 		String passwordText = password.getText().toString();
-
-		Login login = new Login();
+		
 		boolean validLogin = login(usernameText, passwordText);
 		if (validLogin) {
 			Intent intent = new Intent(this, MainActivity.class);

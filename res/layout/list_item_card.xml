@@ -1,26 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress AndroidLintUselessParent -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/card_outer">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="beforeDescendants"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp" >
 
-    <RelativeLayout android:id="@+id/inner_frame" style="@style/card_inner">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/selector_card_background"
+        android:descendantFocusability="afterDescendants"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp" >
 
-        <!--suppress AndroidLintContentDescription -->
-        <ImageView android:id="@android:id/icon" style="@style/card_thumbnail"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/subreddit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subreddit"
+                android:textColor="#939393" />
 
-        <RelativeLayout android:id="@+id/titleFrame" style="@style/card_title_frame">
+        </LinearLayout>
 
-            <TextView android:id="@android:id/title" style="@style/card_title"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
 
-            <!--suppress AndroidLintContentDescription -->
-            <ImageButton android:id="@android:id/button1" style="@style/card_popup_anchor"/>
+            <com.qflagg.myreddit.ResizableImageView
+                android:id="@+id/imageView1"
+				android:layout_width="match_parent"
+    			android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/bridge" />
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            
+            <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>                
+            
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/karma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="karma"
+                android:textColor="#939393" />
+            
+        </LinearLayout>
 
-        <com.afollestad.silk.views.text.SilkTextView android:id="@android:id/content" style="@style/card_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp" >
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/upvote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_up" />
 
-    <!--suppress AndroidLintContentDescription -->
-    <ImageView style="@style/card_shadow"/>
+            <Button
+                android:id="@+id/downvote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_down"  />
 
-</LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.afollestad.cardsui.CardListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cardsList"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:id="@+id/fragments_holder"
+    android:orientation="vertical">
+ 
+</LinearLayout>

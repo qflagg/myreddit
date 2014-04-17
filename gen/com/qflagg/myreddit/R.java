@@ -8,20 +8,7 @@
 package com.qflagg.myreddit;
 
 public final class R {
-    public static final class anim {
-        public static final int popup_hide=0x7f040000;
-        public static final int popup_show=0x7f040001;
-    }
-    public static final class array {
-        public static final int months=0x7f060000;
-    }
     public static final class attr {
-    }
-    public static final class color {
-        public static final int card_gray=0x7f080003;
-        public static final int card_pressed=0x7f080000;
-        public static final int card_pressed_header=0x7f080001;
-        public static final int header_button_default=0x7f080002;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -30,94 +17,66 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f05001b;
-        public static final int activity_vertical_margin=0x7f05001c;
-        public static final int card_action_touchdelegate=0x7f050018;
-        public static final int card_content=0x7f05000e;
-        public static final int card_header=0x7f050010;
-        public static final int card_header_button_margin_left=0x7f050017;
-        public static final int card_header_button_padding_side=0x7f050015;
-        public static final int card_header_button_padding_top=0x7f050016;
-        public static final int card_header_button_text=0x7f050014;
-        public static final int card_header_padding_horizontal=0x7f050013;
-        public static final int card_header_padding_top=0x7f050012;
-        public static final int card_inner_padding_horizontal_large=0x7f05001a;
-        public static final int card_inner_padding_left=0x7f050008;
-        public static final int card_inner_padding_right=0x7f050009;
-        public static final int card_inner_padding_vertical=0x7f050007;
-        public static final int card_inner_padding_vertical_large=0x7f050019;
-        public static final int card_outer_padding_bottom=0x7f050005;
-        public static final int card_outer_padding_firstlast=0x7f050003;
-        public static final int card_outer_padding_horizontal=0x7f050006;
-        public static final int card_outer_padding_top=0x7f050004;
-        public static final int card_shadow=0x7f05000f;
-        public static final int card_subheader=0x7f050011;
-        public static final int card_thumbnail=0x7f05000a;
-        public static final int card_thumbnail_margin=0x7f05000b;
-        public static final int card_title=0x7f05000d;
-        public static final int card_title_margin_left=0x7f05000c;
-        public static final int empty_text_size=0x7f050000;
-        public static final int spinner_item_text=0x7f050001;
-        public static final int toast_offset=0x7f050002;
+        public static final int activity_horizontal_margin=0x7f040000;
+        public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int card_header_selector=0x7f020000;
-        public static final int card_menu_button=0x7f020001;
-        public static final int card_selector=0x7f020002;
-        public static final int card_shadow=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int ic_overflow_normal=0x7f020005;
-        public static final int ic_overflow_pressed=0x7f020006;
-        public static final int list_focused=0x7f020007;
-        public static final int pressed_background=0x7f020008;
-        public static final int pressed_background_header=0x7f020009;
-        public static final int unpressed_background=0x7f02000a;
+        public static final int bridge=0x7f020000;
+        public static final int card=0x7f020001;
+        public static final int ic_action_down=0x7f020002;
+        public static final int ic_action_help=0x7f020003;
+        public static final int ic_action_location_found=0x7f020004;
+        public static final int ic_action_refresh=0x7f020005;
+        public static final int ic_action_search=0x7f020006;
+        public static final int ic_action_up=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int layer_card_background=0x7f020009;
+        public static final int layer_card_background_selected=0x7f02000a;
+        public static final int selector_card_background=0x7f02000b;
     }
     public static final class id {
-        public static final int action_settings=0x7f0b000e;
-        public static final int button1=0x7f0b0006;
-        public static final int cardsList=0x7f0b0000;
-        public static final int day=0x7f0b000c;
-        public static final int editText1=0x7f0b0004;
-        public static final int editText2=0x7f0b0005;
-        public static final int inner_frame=0x7f0b0001;
-        public static final int month=0x7f0b000b;
-        public static final int post_details=0x7f0b0009;
-        public static final int post_score=0x7f0b0008;
-        public static final int post_title=0x7f0b0007;
-        public static final int posts_list=0x7f0b000a;
-        public static final int textView3=0x7f0b0003;
-        public static final int titleFrame=0x7f0b0002;
-        public static final int year=0x7f0b000d;
+        public static final int action_check_updates=0x7f080011;
+        public static final int action_help=0x7f080010;
+        public static final int action_location_found=0x7f08000e;
+        public static final int action_refresh=0x7f08000f;
+        public static final int action_search=0x7f08000d;
+        public static final int button1=0x7f08000c;
+        public static final int downvote=0x7f080006;
+        public static final int editText1=0x7f08000a;
+        public static final int editText2=0x7f08000b;
+        public static final int fragments_holder=0x7f080000;
+        public static final int imageView1=0x7f080003;
+        public static final int karma=0x7f080004;
+        public static final int list_view=0x7f080008;
+        public static final int subreddit=0x7f080002;
+        public static final int textView3=0x7f080009;
+        public static final int title=0x7f080001;
+        public static final int txtTitle=0x7f080007;
+        public static final int upvote=0x7f080005;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int clickable_toast=0x7f030001;
-        public static final int fragment_list=0x7f030002;
-        public static final int list_item_card=0x7f030003;
-        public static final int list_item_card_compressed=0x7f030004;
-        public static final int list_item_card_nocontent=0x7f030005;
-        public static final int list_item_header=0x7f030006;
-        public static final int list_item_header_centered=0x7f030007;
-        public static final int login=0x7f030008;
-        public static final int post_item=0x7f030009;
-        public static final int posts=0x7f03000a;
-        public static final int silk_date_picker=0x7f03000b;
-        public static final int spinner_item=0x7f03000c;
-        public static final int spinner_item_dropdown=0x7f03000d;
+        public static final int list_item_card=0x7f030001;
+        public static final int list_item_title_navigation=0x7f030002;
+        public static final int listview=0x7f030003;
+        public static final int login=0x7f030004;
     }
     public static final class menu {
-        public static final int main=0x7f0a0000;
+        public static final int activity_main_actions=0x7f070000;
     }
     public static final class string {
-        public static final int action_settings=0x7f090002;
-        public static final int app_name=0x7f090001;
-        public static final int hello_world=0x7f090003;
-        public static final int login=0x7f090006;
-        public static final int login_title=0x7f090007;
-        public static final int password=0x7f090005;
-        public static final int see_more=0x7f090000;
-        public static final int username=0x7f090004;
+        public static final int action_check_updates=0x7f05000b;
+        public static final int action_help=0x7f05000a;
+        public static final int action_location_found=0x7f050008;
+        public static final int action_refresh=0x7f050009;
+        public static final int action_search=0x7f050007;
+        public static final int action_settings=0x7f050001;
+        public static final int app_name=0x7f050000;
+        public static final int hello_world=0x7f050002;
+        public static final int login=0x7f050005;
+        public static final int login_title=0x7f050006;
+        public static final int password=0x7f050004;
+        public static final int username=0x7f050003;
     }
     public static final class style {
         /** 
@@ -141,25 +100,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f07000f;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070010;
-        public static final int ClickableToastAnimation=0x7f070000;
-        public static final int card_content=0x7f070009;
-        public static final int card_header_inner=0x7f07000b;
-        public static final int card_header_outer=0x7f07000a;
-        public static final int card_header_summary=0x7f07000d;
-        public static final int card_header_title=0x7f07000c;
-        public static final int card_inner=0x7f070005;
-        public static final int card_inner_compressed=0x7f07000e;
-        public static final int card_outer=0x7f070004;
-        public static final int card_popup_anchor=0x7f070002;
-        public static final int card_shadow=0x7f070003;
-        public static final int card_thumbnail=0x7f070006;
-        public static final int card_title=0x7f070008;
-        public static final int card_title_frame=0x7f070007;
-        public static final int header_button=0x7f070001;
+        public static final int AppTheme=0x7f060001;
     }
 }

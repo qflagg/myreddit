@@ -8,5 +8,10 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="login_title">myreddit Login</string>
+    <string name="action_search">Search</string>
+    <string name="action_location_found">Location Found</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_help">Help</string>
+    <string name="action_check_updates">Check Updates</string>
 
 </resources>
