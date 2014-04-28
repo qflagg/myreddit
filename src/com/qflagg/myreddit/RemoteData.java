@@ -19,26 +19,26 @@ public class RemoteData {
 		cookie = "";
 	}
 
-	// Returns a connection to the specified URL
-	 public  HttpURLConnection getConnection(String url){
-	        System.out.println("URL: "+url);
-	        HttpURLConnection hcon = null;
-	        try {            
-	            hcon=(HttpURLConnection)new URL(url).openConnection();
-	            if(cookie.length() > 0)
-		        	hcon.setRequestProperty("Cookie", cookie);
-	            hcon.setReadTimeout(30000); // Timeout at 30 seconds
-	            hcon.setRequestProperty("User-Agent", "Alien V1.0");
-	        } catch (MalformedURLException e) {
-	            Log.e("getConnection()",
-	                  "Invalid URL: "+e.toString());
-	        } catch (IOException e) {
-	            Log.e("getConnection()",
-	                  "Could not connect: "+e.toString());
-	        }
-	        //hcon.setDoOutput(true);
-	        return hcon;        
-	    }
+//	// Returns a connection to the specified URL
+//	 public  HttpURLConnection getConnection(String url){
+//	        System.out.println("URL: "+url);
+//	        HttpURLConnection hcon = null;
+//	        try {            
+//	            hcon=(HttpURLConnection)new URL(url).openConnection();
+//	            if(cookie.length() > 0)
+//		        	hcon.setRequestProperty("Cookie", cookie);
+//	            hcon.setReadTimeout(30000); // Timeout at 30 seconds
+//	            hcon.setRequestProperty("User-Agent", "Alien V1.0");
+//	        } catch (MalformedURLException e) {
+//	            Log.e("getConnection()",
+//	                  "Invalid URL: "+e.toString());
+//	        } catch (IOException e) {
+//	            Log.e("getConnection()",
+//	                  "Could not connect: "+e.toString());
+//	        }
+//	        //hcon.setDoOutput(true);
+//	        return hcon;        
+//	    }
 	 
 	 public static HttpURLConnection getLoginConnection(String url){
 	        System.out.println("URL: "+url);
@@ -103,7 +103,7 @@ public class RemoteData {
 	    }    
 	
 	
-	static boolean writeToConnection(HttpURLConnection con, String data) {
+	public static boolean writeToConnection(HttpURLConnection con, String data) {
 		try {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(con.getOutputStream()));
 			pw.write(data);

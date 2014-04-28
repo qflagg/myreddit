@@ -21,21 +21,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:textStyle="bold" />
-            
+                android:textStyle="bold"
+                android:onClick="pressedTitle"
+                android:clickable="true" />
+
             <TextView
                 android:id="@+id/subreddit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Subreddit"
                 android:textColor="#939393" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -43,32 +44,60 @@
             android:layout_height="fill_parent"
             android:orientation="horizontal" >
 
-            <com.qflagg.myreddit.ResizableImageView
-                android:id="@+id/imageView1"
-				android:layout_width="match_parent"
-    			android:layout_height="fill_parent"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/bridge" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="gone" />
+
+                <com.qflagg.myreddit.ResizableImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="10dp"
+                    android:onClick="pressedImage"
+                    android:src="@drawable/bridge" />
+
+                <ImageView
+                    android:id="@+id/gif"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/gif"
+                    android:visibility="gone"  />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/subtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="TextView" />
-            
+                android:text="TextView"
+                android:visibility="gone" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/numComments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="comments"
+                android:textColor="#939393" />
+
             <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>                
-            
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/karma"
@@ -76,30 +105,40 @@
                 android:layout_height="wrap_content"
                 android:text="karma"
                 android:textColor="#939393" />
-            
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp" >
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/upvote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_action_up" />
+                android:background="@drawable/ic_action_up"
+                android:onClick="upVoteClicked" />
 
             <Button
                 android:id="@+id/downvote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_action_down"  />
+                android:background="@drawable/ic_action_down"
+                android:onClick="downVoteClicked" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
+            <Button
+                android:id="@+id/comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_chat"
+                android:onClick="commentClicked" />
         </LinearLayout>
-
     </LinearLayout>
 
 </FrameLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto" >
+    
+    <!-- Upvote / will display always -->
+    <item android:id="@+id/action_upvote"
+          android:icon="@drawable/ic_action_up_white"
+          android:title="@string/action_upvote"
+          app:showAsAction="ifRoom"/>
+    
+    <!-- Downvote / will display always -->
+    <item android:id="@+id/action_downvote"
+          android:icon="@drawable/ic_action_down_white"
+          android:title="@string/action_downvote"
+          app:showAsAction="ifRoom"/>
+     
+     
+    <!-- Refresh -->
+    <item android:id="@+id/action_refresh"
+          android:icon="@drawable/ic_action_refresh"
+          android:title="@string/action_refresh"
+          app:showAsAction="ifRoom" />
+     
+</menu>

@@ -28,7 +28,7 @@ public class PostsHolder {
     String redditCookie;
     RemoteData remoteData;
      
-    PostsHolder(String sr, String rc){
+    public PostsHolder(String sr, String rc){
         subreddit=sr;    
         after="";
         
@@ -56,7 +56,7 @@ public class PostsHolder {
      * 
      * @return
      */
-    List<Post> fetchPosts(){
+    public List<Post> fetchPosts(){
         String raw=remoteData.readContents(url);
         List<Post> list=new ArrayList<Post>();
         try{
@@ -82,13 +82,13 @@ public class PostsHolder {
                 p.id=cur.optString("id");
                 p.up=cur.optInt("ups");
                 p.down=cur.optInt("downs");
-                p.subtext=p.stripHtml(cur.optString("selftext_html"));
+                p.subtext=cur.optString("selftext");
                 if(p.title!=null)
                     list.add(p);
                 
                 p.url=cur.optString("url");
                 String newUrl = p.getUrl();
-                if(!newUrl.contains("i.") && newUrl.contains("imgur")){
+                if(!newUrl.contains("i.i") && newUrl.contains("imgur") && !newUrl.contains("/a/")){
                 	newUrl = newUrl.replace("http://", "");
                 	p.setUrl("http://i." + newUrl + ".jpg");
                 }
