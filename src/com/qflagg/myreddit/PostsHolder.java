@@ -45,7 +45,7 @@ public class PostsHolder {
     	if(subreddit.length() > 0){
     		url=URL_TEMPLATE.replace("SUBREDDIT_NAME", subreddit);
     	} else {
-    		url=URL_TEMPLATE.replace("r/SUBREDDIT_NAME", subreddit);
+    		url=URL_TEMPLATE.replace("r/SUBREDDIT_NAME/", subreddit);
     	}
     	url=url.replace("AFTER", after);
     }
@@ -114,5 +114,10 @@ public class PostsHolder {
     	this.subreddit = subreddit;
     	after="";
     	generateURL();
+    }
+    
+    public void setRedditCookie(String redditCookie) {
+    	this.redditCookie = redditCookie;
+    	remoteData.setCookie(redditCookie);
     }
 }

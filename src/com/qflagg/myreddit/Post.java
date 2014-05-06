@@ -70,14 +70,4 @@ public class Post {
 	public String getSubtext() {
 		return subtext;
 	}
-	
-	public String stripHtml(String string){
-		string = string.replaceAll("\\<.*?\\>", "");
-		string = string.replaceAll("&lt;.+?&gt;", "");
-		string = string.replaceAll("&\\w+?;", "");
-		string = string.replaceAll("#39;", "'");
-		string = string.replaceAll("quot;", "\"");
-		
-		return string;
-	}
 }
