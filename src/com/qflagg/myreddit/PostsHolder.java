@@ -57,6 +57,7 @@ public class PostsHolder {
      * @return
      */
     public List<Post> fetchPosts(){
+    	Log.d("AFTERAFTERAFTERAFTER", after);
         String raw=remoteData.readContents(url);
         List<Post> list=new ArrayList<Post>();
         try{
@@ -105,7 +106,7 @@ public class PostsHolder {
      * using the 'after' property
      * @return
      */
-    List<Post> fetchMorePosts(){
+    public List<Post> fetchMorePosts(){
         generateURL();
         return fetchPosts();
     }

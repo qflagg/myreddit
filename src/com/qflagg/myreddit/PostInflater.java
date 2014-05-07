@@ -1,5 +1,8 @@
 package com.qflagg.myreddit;
 
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +46,8 @@ public class PostInflater implements IAdapterViewInflater<Post> {
 		private ImageView m_image;
 		private ImageView gif;
 		int count = 0;
+		int imageHeight = 0;
+		int imageWidth = 0;
 
 
 		public ViewHolder(View rootView) {
@@ -83,9 +88,9 @@ public class PostInflater implements IAdapterViewInflater<Post> {
 			} else {
 				m_image.setVisibility(android.view.View.VISIBLE);
 				subtext.setVisibility(android.view.View.GONE);
-				UrlImageViewHelper.setUrlDrawable(m_image, url, null, 60000);
+				UrlImageViewHelper.setUrlDrawable(m_image, url, null, 1800000);
 			}
 		}
-
+		
 	}
 }
