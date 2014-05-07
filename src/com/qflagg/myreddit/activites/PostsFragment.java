@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.qflagg.myreddit.Post;
@@ -21,17 +20,20 @@ import com.qflagg.myreddit.PostsHolder;
 import com.qflagg.myreddit.R;
 import com.qflagg.myreddit.adapters.BaseInflaterAdapter;
 
+import eu.erikw.PullToRefreshListView;
+import eu.erikw.PullToRefreshListView.OnRefreshListener;
+
 public class PostsFragment extends Fragment implements OnScrollListener {
 	PostsHolder postsHolder;
 	List<Post> posts = new ArrayList<Post>();
-	ListView list;
+	PullToRefreshListView list;
 	ProgressBar progressBar;
 	BaseInflaterAdapter<Post> postAdapter;
 
 	public PostsFragment() {
 	}
 
-	public PostsFragment newInstance(PostsHolder postsHolder) {
+	public static PostsFragment newInstance(PostsHolder postsHolder) {
 		PostsFragment pf = new PostsFragment();
 		pf.postsHolder = postsHolder;
 		return pf;
@@ -42,8 +44,20 @@ public class PostsFragment extends Fragment implements OnScrollListener {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_list, container,
 				false);
-		list = (ListView) rootView.findViewById(R.id.list_view);
+		
+		list = (PullToRefreshListView) rootView.findViewById(R.id.list_view);
 		list.setOnScrollListener(this);
+		list.setOnRefreshListener(new OnRefreshListener() {
+
+		    @Override
+		    public void onRefresh() {
+		    	FragmentManager fm=getActivity().getFragmentManager();
+		    	PostsFragment pf = PostsFragment.newInstance(postsHolder);
+		    	fm.beginTransaction().replace(R.id.content_frame, pf, PostsFragment.class.getName()).commit();
+
+		    }
+		});
+		
 		progressBar = (ProgressBar) rootView
 				.findViewById(R.id.main_progress_bar);
 

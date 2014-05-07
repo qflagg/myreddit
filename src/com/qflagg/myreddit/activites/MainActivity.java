@@ -278,7 +278,6 @@ public class MainActivity extends FragmentActivity implements
 
 	private void selectItem(int position) {
 		Fragment fragment = null;
-		PostsFragment pf;
 		// update the main content by replacing fragments
 		switch (position) {
 		case 0:
@@ -288,13 +287,11 @@ public class MainActivity extends FragmentActivity implements
 			break;
 		case 2:
 			postsHolder.setSubreddit("");
-			pf = new PostsFragment();
-			fragment = pf.newInstance(postsHolder);
+			fragment = PostsFragment.newInstance(postsHolder);
 			break;
 		default:
 			postsHolder.setSubreddit(mDrawerListContent[position]);
-			pf = new PostsFragment();
-			fragment = pf.newInstance(postsHolder);
+			fragment = PostsFragment.newInstance(postsHolder);
 			break;
 		}
 		Bundle args = new Bundle();

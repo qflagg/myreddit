@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:background="#DEDEDE" >
 
-    <ListView
+    <eu.erikw.PullToRefreshListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
