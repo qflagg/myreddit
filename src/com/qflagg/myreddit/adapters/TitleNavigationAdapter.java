@@ -17,11 +17,11 @@ import com.qflagg.myreddit.actionbar.model.SpinnerNavItem;
 public class TitleNavigationAdapter extends BaseAdapter {
  
     private TextView txtTitle;
-    private ArrayList<SpinnerNavItem> spinnerNavItem;
+    private ArrayList<String> spinnerNavItem;
     private Context context;
  
     public TitleNavigationAdapter(Context context,
-            ArrayList<SpinnerNavItem> spinnerNavItem) {
+            ArrayList<String> spinnerNavItem) {
         this.spinnerNavItem = spinnerNavItem;
         this.context = context;
     }
@@ -51,7 +51,7 @@ public class TitleNavigationAdapter extends BaseAdapter {
          
         txtTitle = (TextView) convertView.findViewById(R.id.txtTitle);
          
-        txtTitle.setText(spinnerNavItem.get(position).getTitle());
+        txtTitle.setText(spinnerNavItem.get(position));
         return convertView;
     }
      
@@ -66,7 +66,7 @@ public class TitleNavigationAdapter extends BaseAdapter {
          
         txtTitle = (TextView) convertView.findViewById(R.id.txtTitle);
               
-        txtTitle.setText(spinnerNavItem.get(position).getTitle());
+        txtTitle.setText(spinnerNavItem.get(position));
         return convertView;
     }
  

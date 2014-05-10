@@ -2,9 +2,11 @@ package com.qflagg.myreddit.activites;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -22,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,17 +37,16 @@ import com.qflagg.myreddit.PostsHolder;
 import com.qflagg.myreddit.R;
 import com.qflagg.myreddit.RemoteData;
 import com.qflagg.myreddit.User;
-import com.qflagg.myreddit.actionbar.model.SpinnerNavItem;
 import com.qflagg.myreddit.adapters.TitleNavigationAdapter;
 
 public class MainActivity extends FragmentActivity implements
-		ActionBar.OnNavigationListener {
+	ActionBar.OnNavigationListener {
 
 	private final String REDDIT_LOGIN_URL = "https://ssl.reddit.com/api/login";
 
 	private ActionBar actionBar; // action bar
-	private ArrayList<SpinnerNavItem> navSpinner; // title navigation Spinner
-	private TitleNavigationAdapter listAdapter; // action bar adapter
+	private ArrayList<String> navSpinner; // title navigation Spinner
+	private TitleNavigationAdapter actionBarAdapter; // action bar adapter
 
 	List<Post> posts = new ArrayList<Post>();
 	String[] mDrawerListContent;
@@ -59,6 +61,14 @@ public class MainActivity extends FragmentActivity implements
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
+	
+	private final String[] DEFAULT_SUBREDDITS = {"Front Page", "Announcements", "Art", "AskReddit", "AskScience", "Aww", "Blog", "Books",
+												 "Creepy", "DataIsBeautiful", "DIY", "Documentaries", "EarthPorn", "ExplainLikeImFive", "Fitness",
+												 "Food", "Funny", "Futurology", "Gadgets", "Gaming", "GetMotivated", "Gifs", "History", "IAmA",
+												 "InternetIsBeautiful", "Jokes", "LifeProTips", "ListenToThis", "MildyInteresting", "Movies", "Music",
+												 "News", "NoSleep", "NoTheOnion", "OldSchoolCool", "PersonalFinance", "Philosophy", "PhotoshopBattles",
+												 "Pics", "Science", "ShowerThoughts", "Space", "Sports", "Television", "Tifu", "TodayILearned",
+												 "TwoXChromosomes", "UpliftingNews", "Videos", "WorldNews", "WritingPrompts"};
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,70 +76,8 @@ public class MainActivity extends FragmentActivity implements
 
 		postsHolder = new PostsHolder("", redditCookie);
 		user = new User(redditCookie);
-
-		actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setHomeButtonEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-		mTitle = mDrawerTitle = getTitle();
-
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-		// set a custom shadow that overlays the main content when the drawer
-		// opens
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
-		// set up the drawer's list view with items and click listener
-
-		if (!redditCookie.equals("")) {
-			GenerateNavDrawerTask task = new GenerateNavDrawerTask();
-			task.execute();
-		} else {
-			mDrawerListContent = generateDefaultDrawerListContent();
-
-			mDrawerList.setAdapter(new ArrayAdapter<String>(
-					getApplicationContext(), R.layout.drawer_list_item,
-					mDrawerListContent));
-		}
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
-		) {
-			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(mTitle);
-				invalidateOptionsMenu(); // creates call to
-											// onPrepareOptionsMenu()
-			}
-
-			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(mDrawerTitle);
-				invalidateOptionsMenu(); // creates call to
-											// onPrepareOptionsMenu()
-			}
-		};
-
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		navSpinner = new ArrayList<SpinnerNavItem>();
-		navSpinner.add(new SpinnerNavItem("Front Page"));
-		navSpinner.add(new SpinnerNavItem("r/AbandonedPorn"));
-		navSpinner.add(new SpinnerNavItem("r/AdviceAnimals"));
-		navSpinner.add(new SpinnerNavItem("r/AskReddit"));
-		navSpinner.add(new SpinnerNavItem("r/AskScience"));
-		navSpinner.add(new SpinnerNavItem("r/Awesome"));
-		navSpinner.add(new SpinnerNavItem("r/Aww"));
-		navSpinner.add(new SpinnerNavItem("r/Bestof"));
-
-		listAdapter = new TitleNavigationAdapter(getApplicationContext(),
-				navSpinner);
-		actionBar.setListNavigationCallbacks(listAdapter, this);
-
+		actionBar = setUpActionBar(actionBar);
+		setUpNavigationDrawer();
 		if (savedInstanceState == null) {
 			selectItem(2);
 		}
@@ -207,21 +155,33 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public void upVoteClicked(View view) {
-		Context context = getApplicationContext();
-		CharSequence text = "up vote";
-		int duration = Toast.LENGTH_SHORT;
-
-		Toast toast = Toast.makeText(context, text, duration);
-		toast.show();
+		LinearLayout ll = (LinearLayout)view.getParent();
+		TextView upVotePressed = (TextView)ll.findViewById(R.id.upvote_pressed);
+		Button upVote = (Button)ll.findViewById(R.id.upvote);
+		int isPressed = Integer.parseInt((String)upVotePressed.getText());
+		
+		if(isPressed == 0) {
+			upVotePressed.setText("1");
+			upVote.setBackgroundResource(R.drawable.ic_action_up_pressed);
+		} else {
+			upVotePressed.setText("0");
+			upVote.setBackgroundResource(R.drawable.ic_action_up);
+		}
 	}
 
 	public void downVoteClicked(View view) {
-		Context context = getApplicationContext();
-		CharSequence text = "down vote";
-		int duration = Toast.LENGTH_SHORT;
-
-		Toast toast = Toast.makeText(context, text, duration);
-		toast.show();
+		LinearLayout ll = (LinearLayout)view.getParent();
+		TextView down_vote_pressed = (TextView)ll.findViewById(R.id.downvote_pressed);
+		Button downVote = (Button)ll.findViewById(R.id.downvote);
+		String isPressed = (String)down_vote_pressed.getText();
+		
+		if(isPressed.equals("0")) {
+			down_vote_pressed.setText("1");
+			downVote.setBackgroundResource(R.drawable.ic_action_down_pressed);
+		} else {
+			down_vote_pressed.setText("0");
+			downVote.setBackgroundResource(R.drawable.ic_action_down);
+		}
 	}
 
 	public void commentClicked(View view) {
@@ -235,36 +195,62 @@ public class MainActivity extends FragmentActivity implements
 
 	// onClick Listeners end
 
-	private static String[] generateDefaultDrawerListContent() {
-		String[] content = new String[25];
+	private String[] generateDefaultDrawerListContent() {
+		String[] content = new String[53];
 
 		content[0] = "Login";
 		content[1] = "";
-		content[2] = "Front Page";
-		content[3] = "AdviceAnimals";
-		content[4] = "AskReddit";
-		content[5] = "Aww";
-		content[6] = "BestOf";
-		content[7] = "Books";
-		content[8] = "EarthPorn";
-		content[9] = "ExplainLikeImFive";
-		content[10] = "Funny";
-		content[11] = "Gaming";
-		content[12] = "Gifs";
-		content[13] = "IAmA";
-		content[14] = "Movies";
-		content[15] = "Music";
-		content[16] = "News";
-		content[17] = "Pics";
-		content[18] = "Science";
-		content[19] = "Technology";
-		content[20] = "Television";
-		content[21] = "TodayILearned";
-		content[22] = "Videos";
-		content[23] = "WorldNews";
-		content[24] = "WTF";
+		
+		int j = 0;
+		for(int i = 2; i < content.length; i++)
+			content[i] = DEFAULT_SUBREDDITS[j++];
 
 		return content;
+	}
+	
+	private void setUpNavigationDrawer() {
+		mTitle = mDrawerTitle = getTitle();
+
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
+		if (!redditCookie.equals("")) {
+			GenerateNavDrawerTask task = new GenerateNavDrawerTask();
+			task.execute();
+		} else {
+			mDrawerListContent = generateDefaultDrawerListContent();
+
+			mDrawerList.setAdapter(new ArrayAdapter<String>(
+					getApplicationContext(), R.layout.drawer_list_item,
+					mDrawerListContent));
+		}
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+		mDrawerLayout, /* DrawerLayout object */
+		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+		R.string.drawer_open, /* "open drawer" description for accessibility */
+		R.string.drawer_close /* "close drawer" description for accessibility */
+		) {
+			public void onDrawerClosed(View view) {
+				getActionBar().setTitle(mTitle);
+				invalidateOptionsMenu(); 
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(mDrawerTitle);
+				invalidateOptionsMenu(); 
+			}
+		};
+
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+	}
+	
+	private ActionBar setUpActionBar(ActionBar actionBar) {
+		actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true); 
+		return actionBar;
 	}
 
 	private class DrawerItemClickListener implements
@@ -279,16 +265,14 @@ public class MainActivity extends FragmentActivity implements
 	private void selectItem(int position) {
 		Fragment fragment = null;
 		// update the main content by replacing fragments
+		for(int i = 0; i < mDrawerListContent.length; i++)
 		switch (position) {
 		case 0:
 			if (mDrawerListContent[position].equals("Login")) {
 				fragment = new LoginFragment();
 			}
 			break;
-		case 2:
-			postsHolder.setSubreddit("");
-			fragment = PostsFragment.newInstance(postsHolder);
-			break;
+
 		default:
 			postsHolder.setSubreddit(mDrawerListContent[position]);
 			fragment = PostsFragment.newInstance(postsHolder);
@@ -371,9 +355,8 @@ public class MainActivity extends FragmentActivity implements
 			if (validLogin == 1) {
 				user.setRedditCookie(redditCookie);
 				postsHolder.setRedditCookie(redditCookie);
+				new GenerateNavDrawerTask().execute();
 				selectItem(2);
-				GenerateNavDrawerTask task = new GenerateNavDrawerTask();
-				task.execute();
 			} else {
 				Context context = getApplicationContext();
 				CharSequence text = "Invalid Username or Password";
@@ -391,6 +374,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		protected ArrayAdapter<String> doInBackground(Void... params) {
 			List<String> subscribedSubreddits = user.fetchSubscribedSubreddts();
+			subscribedSubreddits.add(0, "Front Page");
 			subscribedSubreddits.add(0, "");
 			subscribedSubreddits.add(0, "Dislikes");
 			subscribedSubreddits.add(0, "Likes");
@@ -405,7 +389,6 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		protected void onPostExecute(ArrayAdapter<String> adapter) {
-			mDrawerList.setAdapter(null);
 			mDrawerList.setAdapter(adapter);
 		}
 	}

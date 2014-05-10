@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/selector_card_background"
+        android:background="@drawable/layer_card_background"
         android:descendantFocusability="afterDescendants"
         android:orientation="vertical"
         android:paddingBottom="15dp"
@@ -60,8 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginTop="10dp"
-                    android:onClick="pressedImage"
-                    android:src="@drawable/bridge" />
+                    android:onClick="pressedImage"/>
 
                 <ImageView
                     android:id="@+id/gif"
@@ -112,18 +111,40 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/upvote"
+            
+            <TextView
+                android:id="@+id/upvote_pressed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="0"
+                android:visibility="gone" />
+                        
+            <TextView
+                android:id="@+id/downvote_pressed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="0dp" />
+            
+            <Button
+                android:id="@+id/upvote"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/ic_action_up"
                 android:onClick="upVoteClicked" />
+            
+            <View
+                android:layout_width="10dp"
+                android:layout_height="0dp" />
 
             <Button
                 android:id="@+id/downvote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/ic_action_down"
                 android:onClick="downVoteClicked" />
 
@@ -134,7 +155,7 @@
 
             <Button
                 android:id="@+id/comment"
-                android:layout_width="wrap_content"
+                android:layout_width="49dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_action_chat"
                 android:onClick="commentClicked" />

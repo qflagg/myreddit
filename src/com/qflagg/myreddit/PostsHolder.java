@@ -112,7 +112,10 @@ public class PostsHolder {
     }
     
     public void setSubreddit(String subreddit) {
-    	this.subreddit = subreddit;
+    	if(subreddit.equals("Front Page"))
+    		this.subreddit = "";
+    	else
+    		this.subreddit = subreddit;
     	after="";
     	generateURL();
     }
