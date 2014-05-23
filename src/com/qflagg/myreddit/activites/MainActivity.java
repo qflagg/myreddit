@@ -2,11 +2,9 @@ package com.qflagg.myreddit.activites;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.app.ActionBar.OnNavigationListener;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -40,7 +38,7 @@ import com.qflagg.myreddit.User;
 import com.qflagg.myreddit.adapters.TitleNavigationAdapter;
 
 public class MainActivity extends FragmentActivity implements
-	ActionBar.OnNavigationListener {
+		ActionBar.OnNavigationListener {
 
 	private final String REDDIT_LOGIN_URL = "https://ssl.reddit.com/api/login";
 
@@ -61,14 +59,19 @@ public class MainActivity extends FragmentActivity implements
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	
-	private final String[] DEFAULT_SUBREDDITS = {"Front Page", "Announcements", "Art", "AskReddit", "AskScience", "Aww", "Blog", "Books",
-												 "Creepy", "DataIsBeautiful", "DIY", "Documentaries", "EarthPorn", "ExplainLikeImFive", "Fitness",
-												 "Food", "Funny", "Futurology", "Gadgets", "Gaming", "GetMotivated", "Gifs", "History", "IAmA",
-												 "InternetIsBeautiful", "Jokes", "LifeProTips", "ListenToThis", "MildyInteresting", "Movies", "Music",
-												 "News", "NoSleep", "NoTheOnion", "OldSchoolCool", "PersonalFinance", "Philosophy", "PhotoshopBattles",
-												 "Pics", "Science", "ShowerThoughts", "Space", "Sports", "Television", "Tifu", "TodayILearned",
-												 "TwoXChromosomes", "UpliftingNews", "Videos", "WorldNews", "WritingPrompts"};
+
+	private final String[] DEFAULT_SUBREDDITS = { "Front Page",
+			"Announcements", "Art", "AskReddit", "AskScience", "Aww", "Blog",
+			"Books", "Creepy", "DataIsBeautiful", "DIY", "Documentaries",
+			"EarthPorn", "ExplainLikeImFive", "Fitness", "Food", "Funny",
+			"Futurology", "Gadgets", "Gaming", "GetMotivated", "Gifs",
+			"History", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips",
+			"ListenToThis", "MildyInteresting", "Movies", "Music", "News",
+			"NoSleep", "NoTheOnion", "OldSchoolCool", "PersonalFinance",
+			"Philosophy", "PhotoshopBattles", "Pics", "Science",
+			"ShowerThoughts", "Space", "Sports", "Television", "Tifu",
+			"TodayILearned", "TwoXChromosomes", "UpliftingNews", "Videos",
+			"WorldNews", "WritingPrompts" };
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -155,32 +158,81 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	public void upVoteClicked(View view) {
-		LinearLayout ll = (LinearLayout)view.getParent();
-		TextView upVotePressed = (TextView)ll.findViewById(R.id.upvote_pressed);
-		Button upVote = (Button)ll.findViewById(R.id.upvote);
-		int isPressed = Integer.parseInt((String)upVotePressed.getText());
-		
-		if(isPressed == 0) {
-			upVotePressed.setText("1");
-			upVote.setBackgroundResource(R.drawable.ic_action_up_pressed);
+		if (redditCookie.length() > 0) {
+			LinearLayout ll = (LinearLayout) view.getParent();
+			TextView post_id = (TextView) ll.findViewById(R.id.post_id);
+			String id = (String) post_id.getText();
+			
+			ArrayList<Boolean> up_vote_clicked = (ArrayList<Boolean>) view.getTag(R.id.UP_VOTE_CLICKED);
+			ArrayList<Boolean> down_vote_clicked = (ArrayList<Boolean>) view.getTag(R.id.DOWN_VOTE_CLICKED);
+			int position = (Integer) view.getTag(R.id.POSITION);
+			Button downvote = (Button) view.getTag(R.id.downvote);
+			Button upvote = (Button) view;
+			final boolean isUpClicked = up_vote_clicked.get(position);
+			final boolean isDownClicked = down_vote_clicked.get(position);
+
+			if (!isUpClicked) {
+				if (isDownClicked) {
+					downvote.setBackgroundResource(R.drawable.ic_action_down);
+					down_vote_clicked.set(position, false);
+				}
+				upvote.setBackgroundResource(R.drawable.ic_action_up_pressed);
+				up_vote_clicked.set(position, true);
+				user.votePost(id, 1);
+			} else {
+				upvote.setBackgroundResource(R.drawable.ic_action_up);
+				up_vote_clicked.set(position, false);
+				user.votePost(id, 0);
+			}
+
+			upvote.setTag(R.id.UP_VOTE_CLICKED, up_vote_clicked);
+			upvote.setTag(R.id.DOWN_VOTE_CLICKED, down_vote_clicked);
+			upvote.setTag(R.id.POSITION, position);
+			upvote.setTag(R.id.downvote, downvote);
 		} else {
-			upVotePressed.setText("0");
-			upVote.setBackgroundResource(R.drawable.ic_action_up);
+			Context context = getApplicationContext();
+			CharSequence text = "Please login to upvote posts...";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 		}
 	}
 
 	public void downVoteClicked(View view) {
-		LinearLayout ll = (LinearLayout)view.getParent();
-		TextView down_vote_pressed = (TextView)ll.findViewById(R.id.downvote_pressed);
-		Button downVote = (Button)ll.findViewById(R.id.downvote);
-		String isPressed = (String)down_vote_pressed.getText();
-		
-		if(isPressed.equals("0")) {
-			down_vote_pressed.setText("1");
-			downVote.setBackgroundResource(R.drawable.ic_action_down_pressed);
+		if (redditCookie.length() > 0) {
+			ArrayList<Boolean> up_vote_clicked = (ArrayList<Boolean>) view
+					.getTag(R.id.UP_VOTE_CLICKED);
+			ArrayList<Boolean> down_vote_clicked = (ArrayList<Boolean>) view
+					.getTag(R.id.DOWN_VOTE_CLICKED);
+			int position = (Integer) view.getTag(R.id.POSITION);
+			Button upvote = (Button) view.getTag(R.id.upvote);
+			Button downvote = (Button) view;
+			final boolean isUpClicked = up_vote_clicked.get(position);
+			final boolean isDownClicked = down_vote_clicked.get(position);
+			if (!isDownClicked) {
+				if (isUpClicked) {
+					upvote.setBackgroundResource(R.drawable.ic_action_up);
+					up_vote_clicked.set(position, false);
+				}
+				downvote.setBackgroundResource(R.drawable.ic_action_down_pressed);
+				down_vote_clicked.set(position, true);
+			} else {
+				downvote.setBackgroundResource(R.drawable.ic_action_down);
+				down_vote_clicked.set(position, false);
+			}
+
+			downvote.setTag(R.id.UP_VOTE_CLICKED, up_vote_clicked);
+			downvote.setTag(R.id.DOWN_VOTE_CLICKED, down_vote_clicked);
+			downvote.setTag(R.id.POSITION, position);
+			downvote.setTag(R.id.upvote, upvote);
 		} else {
-			down_vote_pressed.setText("0");
-			downVote.setBackgroundResource(R.drawable.ic_action_down);
+			Context context = getApplicationContext();
+			CharSequence text = "Please login to downvote posts...";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 		}
 	}
 
@@ -200,14 +252,14 @@ public class MainActivity extends FragmentActivity implements
 
 		content[0] = "Login";
 		content[1] = "";
-		
+
 		int j = 0;
-		for(int i = 2; i < content.length; i++)
+		for (int i = 2; i < content.length; i++)
 			content[i] = DEFAULT_SUBREDDITS[j++];
 
 		return content;
 	}
-	
+
 	private void setUpNavigationDrawer() {
 		mTitle = mDrawerTitle = getTitle();
 
@@ -234,22 +286,22 @@ public class MainActivity extends FragmentActivity implements
 		) {
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
-				invalidateOptionsMenu(); 
+				invalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				getActionBar().setTitle(mDrawerTitle);
-				invalidateOptionsMenu(); 
+				invalidateOptionsMenu();
 			}
 		};
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
-	
+
 	private ActionBar setUpActionBar(ActionBar actionBar) {
 		actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setHomeButtonEnabled(true); 
+		actionBar.setHomeButtonEnabled(true);
 		return actionBar;
 	}
 
@@ -265,19 +317,19 @@ public class MainActivity extends FragmentActivity implements
 	private void selectItem(int position) {
 		Fragment fragment = null;
 		// update the main content by replacing fragments
-		for(int i = 0; i < mDrawerListContent.length; i++)
-		switch (position) {
-		case 0:
-			if (mDrawerListContent[position].equals("Login")) {
-				fragment = new LoginFragment();
-			}
-			break;
+		for (int i = 0; i < mDrawerListContent.length; i++)
+			switch (position) {
+			case 0:
+				if (mDrawerListContent[position].equals("Login")) {
+					fragment = new LoginFragment();
+				}
+				break;
 
-		default:
-			postsHolder.setSubreddit(mDrawerListContent[position]);
-			fragment = PostsFragment.newInstance(postsHolder);
-			break;
-		}
+			default:
+				postsHolder.setSubreddit(mDrawerListContent[position]);
+				fragment = PostsFragment.newInstance(postsHolder);
+				break;
+			}
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
 
@@ -354,6 +406,12 @@ public class MainActivity extends FragmentActivity implements
 		protected void onPostExecute(Integer validLogin) {
 			if (validLogin == 1) {
 				user.setRedditCookie(redditCookie);
+				new Thread(new Runnable() {
+					public void run() {
+						user.getModHash();
+					}
+				}).start();
+				
 				postsHolder.setRedditCookie(redditCookie);
 				new GenerateNavDrawerTask().execute();
 				selectItem(2);

@@ -7,12 +7,18 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.qflagg.myreddit.Post;
 import com.qflagg.myreddit.PostInflater;
@@ -44,20 +50,28 @@ public class PostsFragment extends Fragment implements OnScrollListener {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_list, container,
 				false);
-		
+
 		list = (PullToRefreshListView) rootView.findViewById(R.id.list_view);
 		list.setOnScrollListener(this);
+		list.setItemsCanFocus(true);
 		list.setOnRefreshListener(new OnRefreshListener() {
 
-		    @Override
-		    public void onRefresh() {
-		    	FragmentManager fm=getActivity().getFragmentManager();
-		    	PostsFragment pf = PostsFragment.newInstance(postsHolder);
-		    	fm.beginTransaction().replace(R.id.content_frame, pf, PostsFragment.class.getName()).commit();
+			@Override
+			public void onRefresh() {
+				FragmentManager fm = getActivity().getFragmentManager();
+				PostsFragment pf = PostsFragment.newInstance(postsHolder);
+				fm.beginTransaction()
+						.replace(R.id.content_frame, pf,
+								PostsFragment.class.getName()).commit();
 
-		    }
+			}
 		});
 		
+		list.setItemsCanFocus(true);
+		list.setFocusable(false);
+		list.setFocusableInTouchMode(false);
+		list.setClickable(false);
+
 		progressBar = (ProgressBar) rootView
 				.findViewById(R.id.main_progress_bar);
 
@@ -71,8 +85,7 @@ public class PostsFragment extends Fragment implements OnScrollListener {
 		return rootView;
 	}
 
-	private class RetrieveMoreCardsTask extends
-			AsyncTask<Void, Void, Void> {
+	private class RetrieveMoreCardsTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -113,8 +126,7 @@ public class PostsFragment extends Fragment implements OnScrollListener {
 		posts.clear();
 		posts.addAll(postsHolder.fetchPosts());
 
-		postAdapter = new BaseInflaterAdapter<Post>(
-				new PostInflater());
+		postAdapter = new BaseInflaterAdapter<Post>(new PostInflater());
 
 		for (int i = 0; i < posts.size(); i++) {
 			Post data = posts.get(i);

@@ -1,5 +1,6 @@
 package com.qflagg.myreddit;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class User {
 	String redditCookie;
 	List<String> subscribedSubreddits;
 	RemoteData remoteData;
+	String modhash;
 
 	public User(String redditCookie) {
 		this.redditCookie = redditCookie;
@@ -46,6 +48,18 @@ public class User {
 		java.util.Collections.sort(subscribedSubreddits);
 		return subscribedSubreddits;
 	}
+	
+	public void getModHash() {
+		String url = "http://reddit.com/api/me.json";
+		String raw = remoteData.readContents(url);
+		try {
+			JSONObject data = new JSONObject(raw).getJSONObject("data");
+			modhash = data.getString("modhash");
+		} catch (Exception e) {
+			Log.e("fetchPosts()", e.toString());
+		}
+		
+	}
 
 	public List<String> getSubscribedSubreddits() {
 		return subscribedSubreddits;
@@ -54,5 +68,20 @@ public class User {
 	public void setRedditCookie(String redditCookie) {
 		this.redditCookie = redditCookie;
 		remoteData.setCookie(redditCookie);
+	}
+	
+	public void votePost(String id, int dir) {
+		String url = "http://reddit.com/api/vote";
+		final String data = "id=t3_" + id + "&dir=" + dir + "&uh=" + modhash;
+		final HttpURLConnection connection = RemoteData.getLoginConnection(url);
+		connection.setRequestProperty("Cookie", redditCookie);
+		connection.setRequestProperty("X-Modhash", modhash);
+		connection.setRequestProperty("Content-Length", Integer.toString(data.length()));
+		new Thread(new Runnable() {
+			public void run() {
+				RemoteData.writeToConnection(connection, data);
+				connection.disconnect();
+			}
+		}).start();
 	}
 }

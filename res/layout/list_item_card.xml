@@ -110,20 +110,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:clickable="true" >
             
             <TextView
-                android:id="@+id/upvote_pressed"
+                android:id="@+id/post_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:visibility="gone" />
-                        
-            <TextView
-                android:id="@+id/downvote_pressed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
                 android:visibility="gone" />
 
             <View
@@ -134,8 +127,7 @@
                 android:id="@+id/upvote"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_action_up"
-                android:onClick="upVoteClicked" />
+                android:onClick="upVoteClicked"/>
             
             <View
                 android:layout_width="10dp"
@@ -145,7 +137,6 @@
                 android:id="@+id/downvote"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_action_down"
                 android:onClick="downVoteClicked" />
 
             <View
